@@ -38,14 +38,14 @@
   --line-2:    #BAC3CF;
   --ink:       #0E141C;
   --ink-2:     #4B5A6B;
-  --ink-3:     #7B8898;
+  --ink-3:     #65707F;
   --accent-ink:#FFFFFF;
 
   --shadow: 0 1px 2px rgba(14,20,28,.05), 0 8px 24px -12px rgba(14,20,28,.18);
 
   /* CH1 CORRIDOR — light */
-  --accent:   #BE560B;
-  --accent-2: #8F4008;
+  --accent:   #A84B08;
+  --accent-2: #7E3706;
 
   --ff-display:"Chakra Petch", "Trebuchet MS", sans-serif;
   --ff-body:   "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
@@ -53,12 +53,22 @@
 
   --bar-h: 56px;
   --maxw: 1180px;
+
+  /* swatch colors for the CH buttons - must match the accent each channel
+     actually applies in the CURRENT theme, so they are tokens, not inline hex */
+  --dot1:#A84B08; --dot2:#06786C; --dot3:#C01A5F; --dot4:#3F6F08; --dot5:#4B45D6;
 }
+
+.ch[data-ch="1"]{ --dot:var(--dot1); }
+.ch[data-ch="2"]{ --dot:var(--dot2); }
+.ch[data-ch="3"]{ --dot:var(--dot3); }
+.ch[data-ch="4"]{ --dot:var(--dot4); }
+.ch[data-ch="5"]{ --dot:var(--dot5); }
 
 /* channel accents — LIGHT */
 :root[data-ch="2"]{ --accent:#06786C; --accent-2:#045148; }
 :root[data-ch="3"]{ --accent:#C01A5F; --accent-2:#8F1247; }
-:root[data-ch="4"]{ --accent:#487F0A; --accent-2:#345C06; }
+:root[data-ch="4"]{ --accent:#3F6F08; --accent-2:#2C4E05; }
 :root[data-ch="5"]{ --accent:#4B45D6; --accent-2:#3730A3; }
 
 /* ---------- DARK ---------- */
@@ -71,10 +81,11 @@
     --line-2:    #33445A;
     --ink:       #E9EFF6;
     --ink-2:     #A3B3C5;
-    --ink-3:     #6B7C90;
+    --ink-3:     #7C8DA1;
     --accent-ink:#06090D;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.8);
     --accent:#FF8A1F; --accent-2:#FFC178;
+    --dot1:#FF8A1F; --dot2:#19D6C4; --dot3:#FF4D95; --dot4:#94EF4A; --dot5:#8A89FF;
   }
   :root:not([data-theme="light"])[data-ch="2"]{ --accent:#19D6C4; --accent-2:#8FF0E6; }
   :root:not([data-theme="light"])[data-ch="3"]{ --accent:#FF4D95; --accent-2:#FF9CC2; }
@@ -90,10 +101,11 @@
   --line-2:    #33445A;
   --ink:       #E9EFF6;
   --ink-2:     #A3B3C5;
-  --ink-3:     #6B7C90;
+  --ink-3:     #7C8DA1;
   --accent-ink:#06090D;
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.8);
   --accent:#FF8A1F; --accent-2:#FFC178;
+  --dot1:#FF8A1F; --dot2:#19D6C4; --dot3:#FF4D95; --dot4:#94EF4A; --dot5:#8A89FF;
 }
 :root[data-theme="dark"][data-ch="2"]{ --accent:#19D6C4; --accent-2:#8FF0E6; }
 :root[data-theme="dark"][data-ch="3"]{ --accent:#FF4D95; --accent-2:#FF9CC2; }
@@ -265,6 +277,7 @@ h1,h2,h3,h4{ font-family:var(--ff-display); margin:0; text-wrap:balance; line-he
 }
 .shell{ padding-top:var(--bar-h); }
 section{ padding-block:clamp(66px,9vw,112px); position:relative; }
+section:last-of-type{ padding-bottom:clamp(30px,4vw,44px); }
 
 .sec-head{ margin-bottom:clamp(30px,4vw,48px); }
 .sec-head h2{ font-size:clamp(28px,4.4vw,46px); font-weight:700; letter-spacing:-.015em; margin-top:14px; }
@@ -479,11 +492,18 @@ section{ padding-block:clamp(66px,9vw,112px); position:relative; }
   margin:22px 0 0; padding:20px 0 0; list-style:none;
   display:grid; gap:12px; border-top:1px solid var(--line);
 }
+/* NOT grid/flex: inline <strong> inside these items must stay in the text flow.
+   A grid container would promote every child to a grid item and wreck the line. */
 .proj-detail li{
-  display:grid; grid-template-columns:14px 1fr; gap:10px;
+  position:relative;
+  padding-left:24px;
   color:var(--ink-2); font-size:14.5px; line-height:1.58;
 }
-.proj-detail li::before{ content:"\25B8"; color:var(--accent); font-size:11px; line-height:1.85; }
+.proj-detail li::before{
+  content:"\25B8";
+  position:absolute; left:4px; top:0;
+  color:var(--accent); font-size:11px; line-height:1.72;
+}
 .proj-detail strong{ color:var(--ink); font-weight:500; }
 
 .tags{ display:flex; flex-wrap:wrap; gap:7px; margin-top:22px; }
@@ -636,7 +656,7 @@ section{ padding-block:clamp(66px,9vw,112px); position:relative; }
 
 .contact-grid{
   margin-top:clamp(36px,5vw,56px);
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(216px,1fr));
   gap:1px; background:var(--line); border:1px solid var(--line);
 }
 .contact-cell{
@@ -650,7 +670,7 @@ section{ padding-block:clamp(66px,9vw,112px); position:relative; }
   text-transform:uppercase; color:var(--ink-3);
   display:flex; align-items:center; gap:7px;
 }
-.contact-cell .v{ font-size:15px; color:var(--ink); word-break:break-word; }
+.contact-cell .v{ font-size:14.5px; color:var(--ink); word-break:normal; overflow-wrap:anywhere; }
 a.contact-cell .v{ color:var(--accent); }
 a.contact-cell .go{
   font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em;
@@ -661,7 +681,7 @@ a.contact-cell .go{
 a.contact-cell:hover .go{ opacity:1; transform:none; }
 
 footer{
-  border-top:1px solid var(--line); padding-block:26px;
+  border-top:1px solid var(--line); padding-block:26px 4px;
   display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
   font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3);
 }
@@ -759,11 +779,11 @@ footer{
   <div class="hud-right">
     <div class="channels">
       <span class="channels-label">CH</span>
-      <button class="ch" data-ch="1" style="--dot:#FF8A1F" aria-pressed="true"  aria-label="Channel 1, Corridor"></button>
-      <button class="ch" data-ch="2" style="--dot:#19D6C4" aria-pressed="false" aria-label="Channel 2, Telemetry"></button>
-      <button class="ch" data-ch="3" style="--dot:#FF4D95" aria-pressed="false" aria-label="Channel 3, Spectrum"></button>
-      <button class="ch" data-ch="4" style="--dot:#94EF4A" aria-pressed="false" aria-label="Channel 4, Sentinel"></button>
-      <button class="ch" data-ch="5" style="--dot:#8A89FF" aria-pressed="false" aria-label="Channel 5, Beacon"></button>
+      <button class="ch" data-ch="1" aria-pressed="true"  aria-label="Channel 1, Corridor"></button>
+      <button class="ch" data-ch="2" aria-pressed="false" aria-label="Channel 2, Telemetry"></button>
+      <button class="ch" data-ch="3" aria-pressed="false" aria-label="Channel 3, Spectrum"></button>
+      <button class="ch" data-ch="4" aria-pressed="false" aria-label="Channel 4, Sentinel"></button>
+      <button class="ch" data-ch="5" aria-pressed="false" aria-label="Channel 5, Beacon"></button>
     </div>
 
     <button class="theme-btn" id="themeBtn" aria-label="Switch between light and dark mode">
